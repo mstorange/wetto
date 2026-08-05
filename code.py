@@ -27,6 +27,7 @@ def load_metadata():
     resp.raise_for_status()
     meta_df = pd.read_csv(StringIO(resp.content.decode("latin-1")), sep=";")
     print(f'{len(meta_df)} Parameter, die Wetter beschreiben wurden via meta_df geladen.')
+    return meta_df
 
 def wide_space_default():
     st.set_page_config(layout='wide')
