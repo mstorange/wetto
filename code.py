@@ -229,8 +229,8 @@ if submitted:
     mittel = df_example['Niederschlag; Stundensumme']
     
     fig, ax = plt.subplots(figsize=(10,5))
-    ax.bar(x, nmax, alpha = 0.5, linewidth = 0, color='lightblue', width=1/24, label='Niederschlag: Unsicherheit')
-    ax.bar(x, mittel, linewidth=2, color='darkblue', width=1/24, label='Niederschlag: Stundensumme')
+    ax.bar(x, nmax, alpha = 1, linewidth = 0, color='77b4f2', width=1/24, label='Niederschlag: Unsicherheit')
+    ax.bar(x, mittel, linewidth=2, color='#208af5', width=1/24, label='Niederschlag: Stundensumme')
     ax.set(xlim=(x.min(), x.max()),
            ylim=(round(nmin.min()-1,0), round(nmax.max()+1,0)), yticks=np.arange(round(nmin.min()-1,0), round(nmax.max()+1,0)))
     plt.legend()
@@ -249,13 +249,14 @@ if submitted:
     mittel = df_example['Lufttemperatur 2 m über Boden; Stundenmittel']
     
     fig, ax = plt.subplots(figsize=(10,5))
-    ax.fill_between(x, tmin, tmax, alpha = 0.5, linewidth = 0, color='red', label='Temperatur: Stundenmittel')
-    ax.plot(x, mittel, linewidth=2, color='darkred', label='Temperatur: Unsicherheit')
+    ax.fill_between(x, tmin, tmax, alpha = 0.5, linewidth = 0, color='#f2e1e5', label='Temperatur: Stundenmittel')
+    ax.plot(x, mittel, linewidth=2, color='#eb889c', label='Temperatur: Unsicherheit')
     ax.set(xlim=(x.min(), x.max()),
            ylim=(round(tmin.min()-1,0), round(tmax.max()+1,0)), yticks=np.arange(round(tmin.min()-1,0), round(tmax.max()+1,0), step=2))
     plt.xticks(rotation=45)
     plt.axhline(y=30, color='darkred', linestyle='-')
     plt.axhline(y=0, color='black', linestyle='-')
+    ax.text(x=x[0]+timedelta(hours=1), y=30, s='-- ab do ischss sauheiss', fontdict={'style':'italic'})
     plt.legend()
     plt.title(f'Temperaturverlauf (in °C) in {ort}')
     st.pyplot(fig)
