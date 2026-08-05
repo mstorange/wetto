@@ -12,6 +12,8 @@ from zoneinfo import ZoneInfo
 @st.cache_data
 def load_stations():
     stationen = pd.read_csv('https://data.geo.admin.ch/ch.meteoschweiz.ogd-local-forecasting/ogd-local-forecasting_meta_point.csv', encoding='latin-1', sep=';')
+    # auswählbar sind nur jene, die auch Stationen sind! Aadorf bspw. daher nicht
+    stationen = stationen[stationen['point_type_de']=='Station'].reset_index(drop=True)
     print(f'Die möglichen Orte wurden geladen. Es stehen {len(stationen)} Stationen zur Auswahl.')
     return stationen
 
