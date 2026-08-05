@@ -92,7 +92,7 @@ if submitted:
 
     # wir brauchen nun die point_id und die point_type_id
     st.write(stationen.head(3))
-    point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_id'] #.values[0]
+    point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]#['point_id'].values[0]
     st.write(point_id.head(3))
     point_type_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_type_id'].values[0]
 
