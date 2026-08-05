@@ -257,7 +257,7 @@ if submitted:
     plt.xticks(rotation=45)
     plt.axhline(y=30, color='darkred', linestyle='-')
     plt.axhline(y=0, color='black', linestyle='-')
-    ax.text(x=x[0]+timedelta(hours=1), y=30, s='-- ab do ischss sauheiss', fontdict={'style':'italic'})
+    ax.text(x=x[0]+timedelta(hours=1), y=30, s='-- ab do isches sauheiss', fontdict={'style':'italic'})
     plt.legend()
     plt.title(f'Temperaturverlauf (in °C) in {ort}')
     st.pyplot(fig)
