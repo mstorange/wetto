@@ -44,7 +44,7 @@ stationen = load_stations()
 orte = sorted(set(stationen.point_name.tolist()))
 
 with st.form("filter_form"):
-    selected_station = st.multiselect(
+    selected_station = st.select(
             "Messstation auswählen",
             orte)
     submitted = st.form_submit_button("Ort auswählen")
@@ -57,6 +57,7 @@ if submitted:
 
     # Parameter laden
     meta_df = load_metadata()
+    st.write('Folgende Parameter sind in den Daten verfügbar:')
     st.write(meta_df)
     print(meta_df)
 
