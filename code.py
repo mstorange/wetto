@@ -59,6 +59,20 @@ def build_data_dict(all_params, assets):
     print('Das ist nun der param_urls dict: ', param_urls)
     return param_urls
 
+@st.cache_data
+def download_raw_data(param_urls):
+    raw_data = {}
+    with httpx.Client(timeout=30.0) as client:
+        for param, url in param_urls.items():
+            resp = client.get(url)
+            if resp.status_code == 200:
+                raw_data[param] = resp.content # zu dem raw_data dict dazufügen
+            else:
+                print(f'HTTP response code {resp.status_code} for {param}')
+    print(f"✓ Es wurden {len(raw_data)}/{len(param_urls)} Datensätze für die ausgewählten Parameter heruntergeladen.")
+    return raw_data
+    
+
 def wide_space_default():
     st.set_page_config(layout='wide')
 wide_space_default()
@@ -115,4 +129,32 @@ if submitted:
 
     # wenn wir dann die variable ort brauchen, müssen wir sie wohl via st.session_state.ort aufrufen
     param_urls = build_data_dict(selected_params, assets)
-    st.write('param_urls dict: ', param_urls)
+    #st.write('param_urls dict: ', param_urls)
+
+    # jetzt effektiv die Datensätze runterladen
+    raw_data = download_raw_data(param_urls)
+    st.write('Folgende Daten haben wir nun heruntergeladen: ', [params_dict[i] for i in raw_data.keys()])
+
+    # nun bauen wir aus den heruntergeladenen Daten ein df, welches alle Daten beinhaltet
+    ersterparam = list(raw_data.keys())[0]
+    df_example = pd.read_csv(StringIO(raw_data[ersterparam].decode("latin-1")), sep=";", parse_dates=["Date"])
+    df_example = df_example[(df_example['point_id'] == int(point_id)) & (df_example['point_type_id'] == int(point_type_id))]
+    df_example = df_example.drop(columns=[ersterparam])
+
+    for param in raw_data.keys(): # hier fügen wir nun alle Daten dem df_example dazu
+    # print(param)
+        df = pd.read_csv(StringIO(raw_data[param].decode("latin-1")), sep=";", parse_dates=["Date"])
+        df = df[(df['point_id'] == int(point_id)) & (df['point_type_id'] == int(point_type_id))].reset_index(drop=True)
+        df_example = df_example.merge(df, on=["Date", "point_id", "point_type_id"], how="outer")
+
+    # wir ersetzen die Spaltennamen durch die ganzen Namen der Parameter statt die kryptischen shortnames
+    for col in df_example.columns:
+        if col in ['point_id', 'point_type_id', 'Date']:
+            continue
+        else:
+            # print(col)
+            df_example = df_example.rename(columns={col:params_dict[col]})
+
+    # insights
+    st.write(f'Wir haben folgende Werte {df_example.columns} von heute bis {df_example['Date'].max()}')
+    st.write(df_example)
