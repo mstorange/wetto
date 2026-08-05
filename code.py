@@ -5,7 +5,7 @@ from numpy import float64
 import matplotlib.pyplot as plt
 import httpx
 from io import StringIO
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 #from streamlit_folium import st_folium
 
