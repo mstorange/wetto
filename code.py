@@ -109,8 +109,8 @@ def wide_space_default():
     st.set_page_config(layout='wide')
 wide_space_default()
 
-st.title('Wetto-App')
-st.write('STAC API-Test')
+st.title('Wetto-App :sunglasses:')
+st.subheader('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use.', divider='blue')
     
 # --- session state init ---
 if "applied" not in st.session_state:
@@ -121,9 +121,9 @@ orte = sorted(set(stationen.point_name.tolist()))
 
 with st.form("filter_form"):
     ort = st.selectbox(
-            "Messstation auswählen",
+            "Messstation uswähle",
             orte)
-    submitted = st.form_submit_button("Ort auswählen")
+    submitted = st.form_submit_button("Ort bestätige")
     
 if submitted:
     st.session_state.applied = True
