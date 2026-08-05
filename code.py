@@ -128,22 +128,22 @@ if submitted:
     st.session_state.applied = True
     st.session_state.ort = ort
 
-    st.write('Ausgewählter Ort: ', ort)
+    st.write('Du hesch de Ort usgwählt: ', ort)
 
     # Parameter laden
     meta_df = load_metadata()
-    st.write('Folgende Parameter sind in den Daten verfügbar:')
-    st.write(meta_df)
+    #st.write('Folgende Parameter sind in den Daten verfügbar:')
+    #st.write(meta_df)
     #print(meta_df)
 
 
     # wir brauchen nun die point_id und die point_type_id
-    st.write(f'Variable st.sessions_state.ort is of type {type(st.session_state.ort)} and returns {st.session_state.ort}.')
+    #st.write(f'Variable st.sessions_state.ort is of type {type(st.session_state.ort)} and returns {st.session_state.ort}.')
     #st.write(stationen)
     point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_id'].values[0]
-    st.write('point_id: ', point_id)
+    #st.write('point_id: ', point_id)
     point_type_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_type_id'].values[0]
-    st.write('point_type_id: ', point_type_id)
+    #st.write('point_type_id: ', point_type_id)
 
     # wir bauen nun dicts, um vom shortname auf die normalen Namen, die Unit und die Parameter-Kurzbeschreibung zuzugreifen
     param_unit = dict(zip(meta_df["parameter_shortname"], meta_df["parameter_unit"]))
@@ -165,7 +165,7 @@ if submitted:
     # jetzt effektiv die Datensätze runterladen
     st.write('Jetzt muesch chli Geduld ha (bis ca. 30 sek), bis ich all das Dategschmäus abeglade han...')
     raw_data = download_raw_data(param_urls)
-    st.write('Folgende Daten haben wir nun heruntergeladen: ', [params_dict[i] for i in raw_data.keys()])
+    #st.write('Folgende Daten haben wir nun heruntergeladen: ', [params_dict[i] for i in raw_data.keys()])
 
     # nun bauen wir aus den heruntergeladenen Daten ein df, welches alle Daten beinhaltet
     ersterparam = list(raw_data.keys())[0]
@@ -188,15 +188,16 @@ if submitted:
             df_example = df_example.rename(columns={col:params_dict[col]})
 
     # insights
-    st.write(f'Wir haben folgende Werte {df_example.columns} von heute bis {df_example['Date'].max()}')
-    st.write(df_example)
+    #st.write(f'Wir haben folgende Werte {df_example.columns} von heute bis {df_example['Date'].max()}')
+    st.write(f'Mir hend Wettodate vo hüt bis und mit {df_example['Date'].max()}')
+    #st.write(df_example)
 
     # nun wollen wir in Worten wiedergeben, wie das Wetter morgen wird
     tmrw = datetime.today().date()+timedelta(days=1)
     tmrw = tmrw.strftime(format='%Y-%m-%d %H:%M:%S')
 
     df_morgen = df_example[df_example['Date']==tmrw].reset_index(drop=True)
-    st.write(df_morgen)
+    #st.write(df_morgen)
 
     n = df_morgen['Niederschlag; Tagessumme 00:00 - 24:00 Lokalzeit'][0]
     t_max = df_morgen['Lufttemperatur 2 m über Boden; Tagesmaximum 00:00 - 24:00 Lokalzeit'][0]
