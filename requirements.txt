@@ -4,3 +4,4 @@ pandas
 matplotlib
 httpx
 datetime
+starlette<0.37.0
