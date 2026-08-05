@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import geopandas as gpd
 import streamlit as st
 from numpy import float64
 import matplotlib.pyplot as plt
