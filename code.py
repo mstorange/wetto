@@ -229,7 +229,7 @@ if submitted:
     mittel = df_example['Niederschlag; Stundensumme']
     
     fig, ax = plt.subplots(figsize=(10,5))
-    ax.bar(x, nmax, alpha = 1, linewidth = 0, color='77b4f2', width=1/24, label='Niederschlag: Unsicherheit')
+    ax.bar(x, nmax, alpha = 1, linewidth = 0, color='#77b4f2', width=1/24, label='Niederschlag: Unsicherheit')
     ax.bar(x, mittel, linewidth=2, color='#208af5', width=1/24, label='Niederschlag: Stundensumme')
     ax.set(xlim=(x.min(), x.max()),
            ylim=(round(nmin.min()-1,0), round(nmax.max()+1,0)), yticks=np.arange(round(nmin.min()-1,0), round(nmax.max()+1,0)))
