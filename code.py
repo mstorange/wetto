@@ -215,7 +215,7 @@ if submitted:
     #plt.style.use('_mpl-gallery')
     plt.style.use('dark_background')
     x = df_example['Date']
-    mittel = df_example['Sunneschii (in Minute pro Stund)']
+    mittel = df_example['Sonnenscheindauer; Stundensumme']
     fig, ax = plt.subplots(figsize=(10,5))
     ax.bar(x, mittel, linewidth=0.2, color='yellow', width=1/24, label='Sunneschii (in Minute pro Stund)', edgecolor='black')
     plt.legend()
