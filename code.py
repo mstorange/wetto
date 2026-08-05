@@ -115,3 +115,4 @@ if submitted:
 
     # wenn wir dann die variable ort brauchen, müssen wir sie wohl via st.session_state.ort aufrufen
     param_urls = build_data_dict(selected_params, assets)
+    st.write('param_urls dict: ', param_urls)
