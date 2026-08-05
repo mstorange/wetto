@@ -91,6 +91,7 @@ if submitted:
 
 
     # wir brauchen nun die point_id und die point_type_id
+    st.write(f'Variable st.sessions_state.ort is of type {type(st.session_state.ort)} and returns {st.session_state.ort}.')
     st.write(stationen.head(3))
     point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]#['point_id'].values[0]
     st.write(point_id.head(3))
