@@ -208,7 +208,7 @@ if submitted:
     # jetzt als Worte das morgige Wetter wiedergeben
     tempstring = echo_temp(t_max)
     percstring = echo_perc(n)
-    st.subheader('Das isch d Prognose für morn:")
+    st.subheader('Das isch d Prognose für morn:')
     st.write(f'In {st.session_state.ort} {tempstring}{percstring} Une gsehsch no d Wert als Grafik, falls di da interessiert :)')
 
 
