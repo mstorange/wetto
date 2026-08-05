@@ -42,6 +42,8 @@ with st.form("filter_form"):
     selected_station = st.multiselect(
             "Messstation auswählen",
             orte)
+    submitted = st.form_submit_button("Ort auswählen")
+    
 if submitted:
     st.session_state.applied = True
     st.session_state.selected_station = selected_station
