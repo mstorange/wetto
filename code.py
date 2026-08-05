@@ -29,6 +29,21 @@ def load_metadata():
     print(f'{len(meta_df)} Parameter, die Wetter beschreiben wurden via meta_df geladen.')
     return meta_df
 
+@st.cache_data
+def download_assets():
+    STAC_BASE_URL  = "https://data.geo.admin.ch/api/stac/v1"
+    collection  = "ch.meteoschweiz.ogd-local-forecasting"
+    today_id = f"{datetime.now(LOCAL_TZ).strftime('%Y%m%d')}-ch"
+    item_url = f"{STAC_BASE_URL}/collections/{collection}/items/{today_id}"
+    with httpx.Client() as client:
+        item = client.get(item_url)
+        item.raise_for_status()
+        stac_item = item.json()
+    assets = stac_item['assets']
+    print(f'Für die von uns ausgewählten Parameter wurden {len(assets)} Datensatz-Links gefunden, über welche die Daten dann heruntergeladen werden können.')
+    print(assets)
+    return assets
+
 def wide_space_default():
     st.set_page_config(layout='wide')
 wide_space_default()
@@ -44,16 +59,16 @@ stationen = load_stations()
 orte = sorted(set(stationen.point_name.tolist()))
 
 with st.form("filter_form"):
-    selected_station = st.selectbox(
+    ort = st.selectbox(
             "Messstation auswählen",
             orte)
     submitted = st.form_submit_button("Ort auswählen")
     
 if submitted:
     st.session_state.applied = True
-    st.session_state.selected_station = selected_station
+    st.session_state.ort = ort
 
-    st.write('Ausgewählter Ort: ', selected_station)
+    st.write('Ausgewählter Ort: ', ort)
 
     # Parameter laden
     meta_df = load_metadata()
@@ -62,5 +77,22 @@ if submitted:
     print(meta_df)
 
 
-    # wenn wir dann die variable selected_station brauchen, müssen wir sie wohl via st.session_state.selected_station aufrufen
+    # wir brauchen nun die point_id und die point_type_id
+    point_id = stationen[(stationen['point_name']==ort)&(stationen['point_type_de']=='Station')]['point_id'].values[0]
+    point_type_id = stationen[(stationen['point_name']==ort)&(stationen['point_type_de']=='Station')]['point_type_id'].values[0]
+
+    # wir bauen nun dicts, um vom shortname auf die normalen Namen, die Unit und die Parameter-Kurzbeschreibung zuzugreifen
+    param_unit = dict(zip(meta_df["parameter_shortname"], meta_df["parameter_unit"]))
+    param_group = dict(zip(meta_df["parameter_shortname"], meta_df["parameter_group_de"]))
+    params_dict = dict(zip(meta_df['parameter_shortname'], meta_df['parameter_description_de']))
+
+    # nun definieren wir, welche Parameter wir brauchen wollen
+    lang = 'de'
+    selected_params = ['rka150p0', 'rre150h0', 'rreq10h0', 'rreq90h0', 'sre000h0', 'tre200pn', 'tre200px', 'treq10h0', 'treq90h0','tre200h0']
+    print('Folgende Parameter wurden ausgewählt und können dann analysiert bzw. dargestellt werden: ', [param_group[i] for i in selected_params])
+
+    # nun 
+    LOCAL_TZ = ZoneInfo("Europe/Zurich")
+
+    # wenn wir dann die variable ort brauchen, müssen wir sie wohl via st.session_state.ort aufrufen
     
