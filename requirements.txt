@@ -3,6 +3,5 @@ numpy
 pandas
 matplotlib
 httpx
-StringIO
 ZoneInfo
 datetime
