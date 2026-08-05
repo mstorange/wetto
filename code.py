@@ -23,6 +23,10 @@ def load_metadata():
     url_metadata   = (
     f"https://data.geo.admin.ch/{collection}/"
     "ogd-local-forecasting_meta_parameters.csv")
+    resp = httpx.get(url_metadata, follow_redirects=True, timeout=30)
+    resp.raise_for_status()
+    meta_df = pd.read_csv(StringIO(resp.content.decode("latin-1")), sep=";")
+    print(f'{len(meta_df)} Parameter, die Wetter beschreiben wurden via meta_df geladen.')
 
 def wide_space_default():
     st.set_page_config(layout='wide')
@@ -49,4 +53,11 @@ if submitted:
     st.session_state.selected_station = selected_station
 
     st.write('Ausgewählter Ort: ', selected_station[0])
+
+    # Parameter laden
+    meta_df = load_metadata()
+    print(meta_df.head())
+
+
+    # wenn wir dann die variable selected_station brauchen, müssen wir sie wohl via st.session_state.selected_station aufrufen
     
