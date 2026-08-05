@@ -57,7 +57,8 @@ if submitted:
 
     # Parameter laden
     meta_df = load_metadata()
-    print(meta_df.head())
+    st.write(meta_df)
+    print(meta_df)
 
 
     # wenn wir dann die variable selected_station brauchen, müssen wir sie wohl via st.session_state.selected_station aufrufen
