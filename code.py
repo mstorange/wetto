@@ -48,5 +48,5 @@ if submitted:
     st.session_state.applied = True
     st.session_state.selected_station = selected_station
 
-    st.write('Ausgewählter Ort: ', selected_station)
+    st.write('Ausgewählter Ort: ', selected_station[0])
     
