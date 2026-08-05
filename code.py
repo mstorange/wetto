@@ -110,7 +110,7 @@ def wide_space_default():
 wide_space_default()
 
 st.header('Wetto-App :sunglasses:')
-st.subheader('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use', divider='blue')
+st.write('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use', divider='blue')
     
 # --- session state init ---
 if "applied" not in st.session_state:
@@ -190,7 +190,7 @@ if submitted:
 
     # insights
     #st.write(f'Wir haben folgende Werte {df_example.columns} von heute bis {df_example['Date'].max()}')
-    st.write(f'Mir hend Wettodate vo hüt bis und mit {df_example['Date'].max()}')
+    st.write(f'Jetzt hani d Wettodate vo hüt bis und mit {df_example['Date'].max().strftime(format='%d.%m.')} abeglade. Quelle: MeteoSchweiz')
     #st.write(df_example)
 
     # nun wollen wir in Worten wiedergeben, wie das Wetter morgen wird
@@ -215,12 +215,12 @@ if submitted:
     #plt.style.use('_mpl-gallery')
     plt.style.use('dark_background')
     x = df_example['Date']
-    mittel = df_example['Sonnenscheindauer; Stundensumme']
+    mittel = df_example['Sunneschii (in Minute pro Stund)']
     fig, ax = plt.subplots(figsize=(10,5))
-    ax.bar(x, mittel, linewidth=0.2, color='yellow', width=1/24, label='Sonnenscheindauer: Stundensumme', edgecolor='black')
+    ax.bar(x, mittel, linewidth=0.2, color='yellow', width=1/24, label='Sunneschii (in Minute pro Stund)', edgecolor='black')
     plt.legend()
     plt.xticks(rotation=45)
-    plt.title(f'Sonnenscheinprognose (in Minuten) in {ort}')
+    plt.title(f'Sunneschiiprognose (min/h) in {ort}')
     st.pyplot(fig)
 
     
@@ -231,12 +231,12 @@ if submitted:
     
     fig, ax = plt.subplots(figsize=(10,5))
     ax.bar(x, nmax, alpha = 1, linewidth = 0, color='#77b4f2', width=1/24, label='Niederschlag: Unsicherheit')
-    ax.bar(x, mittel, linewidth=2, color='#208af5', width=1/24, label='Niederschlag: Stundensumme')
+    ax.bar(x, mittel, linewidth=2, color='#208af5', width=1/24, label='Niederschlag: Stundesumme in mm')
     ax.set(xlim=(x.min(), x.max()),
            ylim=(round(nmin.min()-1,0), round(nmax.max()+1,0)), yticks=np.arange(round(nmin.min()-1,0), round(nmax.max()+1,0)))
     plt.legend()
     if 5 >= nmin.min() and 5 <= nmax.max():
-           ax.text(x=x[0]+timedelta(hours=1), y=4.8, s='-- bis 5 mm: wenig Regen', fontdict={'style':'italic'})
+           ax.text(x=x[0]+timedelta(hours=1), y=4.8, s='-- bis 5 mm gilt als wenig Rege', fontdict={'style':'italic'})
            plt.axhline(y=5, color='blue', linestyle='-')
     plt.xticks(rotation=45)
     plt.title(f'Niederschlagsprognose (in mm/h) in {ort}')
