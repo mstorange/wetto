@@ -211,7 +211,8 @@ if submitted:
     st.write(f'In {st.session_state.ort} {tempstring}{percstring} Une gsehsch no d Wert als Grafik, falls di da interessiert :)')
 
 
-    plt.style.use('_mpl-gallery')
+    #plt.style.use('_mpl-gallery')
+    plt.style.use('dark_background')
     x = df_example['Date']
     mittel = df_example['Sonnenscheindauer; Stundensumme']
     fig, ax = plt.subplots(figsize=(10,5))
@@ -222,7 +223,7 @@ if submitted:
     st.pyplot(fig)
 
     
-
+    plt.style.use('dark_background')
     nmin = df_example['Niederschlag; Stundensumme, 10% Quantil']
     nmax = df_example['Niederschlag; Stundensumme, 90% Quantil']
     mittel = df_example['Niederschlag; Stundensumme']
@@ -241,7 +242,8 @@ if submitted:
     st.pyplot(fig)
 
 
-    plt.style.use('_mpl-gallery')
+    #plt.style.use('_mpl-gallery')
+    plt.style.use('dark_background')
     tmin = df_example['Lufttemperatur 2 m über Boden; Stundenmittel, 10% Quantil']
     tmax = df_example['Lufttemperatur 2 m über Boden; Stundenmittel, 90% Quantil']
     mittel = df_example['Lufttemperatur 2 m über Boden; Stundenmittel']
