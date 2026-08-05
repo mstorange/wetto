@@ -47,7 +47,6 @@ with st.form("filter_form"):
 if submitted:
     st.session_state.applied = True
     st.session_state.selected_station = selected_station
-    
-    submitted = st.form_submit_button("Anwenden")
+
     st.write('Ausgewählter Ort: ', selected_station)
     
