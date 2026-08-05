@@ -71,7 +71,38 @@ def download_raw_data(param_urls):
                 print(f'HTTP response code {resp.status_code} for {param}')
     print(f"✓ Es wurden {len(raw_data)}/{len(param_urls)} Datensätze für die ausgewählten Parameter heruntergeladen.")
     return raw_data
+
+@st.cache_data
+def echo_temp(t_max): #t_max ist die Tagesmaxtemp und n der Niederschlag
+    if t_max < 0:
+        t = 'wirds morn arschchalt und '
+    elif t_max < 10:
+        t = 'wirds morn nöd über 10° C und '
+    elif t_max < 20:
+        t = 'wirds morn temperaturmässig nöd über 20°C und '
+    elif t_max < 25:
+        t = 'wirds morn richtig schön agnehm warm und '
+    elif t_max < 30:
+        t = 'chunnsch morn scho recht ischs Schwitze (max. unter 30°C) und '
+    else:
+        t = 'wirds morn e Affehitz und '
+    return t # als string
+
+@st.cache_data
+def echo_perc(n):
+    if n == 0:
+        m = 'es regnet kein Tropfe.'
+    elif n < 5:
+        m = 'es regnet fast gar nöd.'
+    elif n < 20:
+        m = 'es chönnt di schono verregne.'
+    elif n < 40:
+        m = 'regetechnisch gohts huere ab.'
+    else:
+        m = 'es seicht wie wahnsinnig.'
+    return m
     
+
 
 def wide_space_default():
     st.set_page_config(layout='wide')
@@ -132,7 +163,7 @@ if submitted:
     #st.write('param_urls dict: ', param_urls)
 
     # jetzt effektiv die Datensätze runterladen
-    st.write('Jetzt muesch chli Geduld ha (ca. 30 sek), bis ich all das Dategschmäus abeglade han...')
+    st.write('Jetzt muesch chli Geduld ha (bis ca. 30 sek), bis ich all das Dategschmäus abeglade han...')
     raw_data = download_raw_data(param_urls)
     st.write('Folgende Daten haben wir nun heruntergeladen: ', [params_dict[i] for i in raw_data.keys()])
 
@@ -170,3 +201,8 @@ if submitted:
     n = df_morgen['Niederschlag; Tagessumme 00:00 - 24:00 Lokalzeit'][0]
     t_max = df_morgen['Lufttemperatur 2 m über Boden; Tagesmaximum 00:00 - 24:00 Lokalzeit'][0]
     t_min = df_morgen['Lufttemperatur 2 m über Boden; Tagesminimum 00:00 - 24:00 Lokalzeit'][0]
+
+    # jetzt als Worte das morgige Wetter wiedergeben
+    tempstring = echo_temp(t_max)
+    percstring = echo_perc(n)
+    st.write(f'In {st.session_state.ort} {tempstring}{percstring} Une gsehsch no d Wert als Grafik, falls di da interessiert :)')
