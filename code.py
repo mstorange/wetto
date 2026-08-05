@@ -101,7 +101,8 @@ def echo_perc(n):
     else:
         m = 'es seicht wie wahnsinnig.'
     return m
-    
+
+
 
 
 def wide_space_default():
@@ -203,7 +204,19 @@ if submitted:
     t_max = df_morgen['Lufttemperatur 2 m über Boden; Tagesmaximum 00:00 - 24:00 Lokalzeit'][0]
     t_min = df_morgen['Lufttemperatur 2 m über Boden; Tagesminimum 00:00 - 24:00 Lokalzeit'][0]
 
+    
     # jetzt als Worte das morgige Wetter wiedergeben
     tempstring = echo_temp(t_max)
     percstring = echo_perc(n)
     st.write(f'In {st.session_state.ort} {tempstring}{percstring} Une gsehsch no d Wert als Grafik, falls di da interessiert :)')
+
+
+    plt.style.use('_mpl-gallery')
+    x = df_example['Date']
+    mittel = df_example['Sonnenscheindauer; Stundensumme']
+    fig, ax = plt.subplots(figsize=(10,5))
+    ax.bar(x, mittel, linewidth=0.2, color='yellow', width=1/24, label='Sonnenscheindauer: Stundensumme', edgecolor='black')
+    plt.legend()
+    plt.xticks(rotation=45)
+    plt.title(f'Sonnenscheinprognose (in Minuten) in {ort}')
+    st.pyplot(fig)
