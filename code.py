@@ -132,6 +132,7 @@ if submitted:
     #st.write('param_urls dict: ', param_urls)
 
     # jetzt effektiv die Datensätze runterladen
+    st.write('Jetzt muesch chli Geduld ha (ca. 30 sek), bis ich all das Dategschmäus abeglade han...')
     raw_data = download_raw_data(param_urls)
     st.write('Folgende Daten haben wir nun heruntergeladen: ', [params_dict[i] for i in raw_data.keys()])
 
@@ -158,3 +159,14 @@ if submitted:
     # insights
     st.write(f'Wir haben folgende Werte {df_example.columns} von heute bis {df_example['Date'].max()}')
     st.write(df_example)
+
+    # nun wollen wir in Worten wiedergeben, wie das Wetter morgen wird
+    tmrw = datetime.today().date()+timedelta(days=1)
+    tmrw = tmrw.strftime(format='%Y-%m-%d %H:%M:%S')
+
+    df_morgen = df_example[df_example['Date']==tmrw].reset_index(drop=True)
+    st.write(df_morgen)
+
+    n = df_morgen['Niederschlag; Tagessumme 00:00 - 24:00 Lokalzeit'][0]
+    t_max = df_morgen['Lufttemperatur 2 m über Boden; Tagesmaximum 00:00 - 24:00 Lokalzeit'][0]
+    t_min = df_morgen['Lufttemperatur 2 m über Boden; Tagesminimum 00:00 - 24:00 Lokalzeit'][0]
