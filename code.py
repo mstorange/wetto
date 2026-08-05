@@ -30,9 +30,10 @@ def load_metadata():
     return meta_df
 
 @st.cache_data
-def download_assets():
+def get_download_links():
     STAC_BASE_URL  = "https://data.geo.admin.ch/api/stac/v1"
     collection  = "ch.meteoschweiz.ogd-local-forecasting"
+    LOCAL_TZ = ZoneInfo("Europe/Zurich")
     today_id = f"{datetime.now(LOCAL_TZ).strftime('%Y%m%d')}-ch"
     item_url = f"{STAC_BASE_URL}/collections/{collection}/items/{today_id}"
     with httpx.Client() as client:
@@ -41,8 +42,20 @@ def download_assets():
         stac_item = item.json()
     assets = stac_item['assets']
     print(f'Für die von uns ausgewählten Parameter wurden {len(assets)} Datensatz-Links gefunden, über welche die Daten dann heruntergeladen werden können.')
-    print(assets)
+    #print(assets)
     return assets
+
+@st.cache_data
+def build_data_dict(all_params, assets):
+    param_urls = {} # hier in diesem dict haben wir dann parameter_shortname: downloadlink
+    for param in all_params:
+        for key, asset in assets.items():
+            if param in key: # falls die character sequence in dem key (param shortname) drin ist...
+                param_urls[param] = asset['href'] # hier ergänzen wir den obigen dict um den shortname (key) und den Downloadlink (href) als value, nimmt den aktuellsten Datensatz, weil dieser zuoberst sein sollte
+                break
+    print(f"\n{len(param_urls)}/{len(all_params)} parameters matched to asset URLs")
+    print('Das ist nun der param_urls dict: ', param_urls)
+    return param_urls
 
 def wide_space_default():
     st.set_page_config(layout='wide')
@@ -91,8 +104,8 @@ if submitted:
     selected_params = ['rka150p0', 'rre150h0', 'rreq10h0', 'rreq90h0', 'sre000h0', 'tre200pn', 'tre200px', 'treq10h0', 'treq90h0','tre200h0']
     print('Folgende Parameter wurden ausgewählt und können dann analysiert bzw. dargestellt werden: ', [param_group[i] for i in selected_params])
 
-    # nun 
-    LOCAL_TZ = ZoneInfo("Europe/Zurich")
+    # nun holen wir uns den dict, welcher die Download-Links der Datensätze enthält (assets)
+    assets = get_download_links()
 
     # wenn wir dann die variable ort brauchen, müssen wir sie wohl via st.session_state.ort aufrufen
-    
+    param_urls = build_data_dict(selected_params, assets)
