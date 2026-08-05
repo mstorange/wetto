@@ -48,6 +48,6 @@ if submitted:
     st.session_state.applied = True
     st.session_state.selected_station = selected_station
     
-    st.write('Ausgewählter Ort: ', ort)
+    st.write('Ausgewählter Ort: ', selected_station)
     submitted = st.form_submit_button("Anwenden")
     
