@@ -110,7 +110,7 @@ def wide_space_default():
 wide_space_default()
 
 st.header('Wetto-App :sunglasses:')
-st.write('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use', divider='blue')
+st.write('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use')
     
 # --- session state init ---
 if "applied" not in st.session_state:
