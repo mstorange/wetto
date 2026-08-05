@@ -42,9 +42,7 @@ orte = sorted(set(stationen.point_name.tolist()))
 with st.form("filter_form"):
     selected_cantons = st.multiselect(
             "Messstation auswählen",
-            orte
-        )
-
-  st.write('Ausgewählter Ort: ', ort)
-  submitted = st.form_submit_button("Anwenden")
+            orte)
+    st.write('Ausgewählter Ort: ', ort)
+    submitted = st.form_submit_button("Anwenden")
     
