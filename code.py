@@ -44,7 +44,7 @@ stationen = load_stations()
 orte = sorted(set(stationen.point_name.tolist()))
 
 with st.form("filter_form"):
-    selected_station = st.select(
+    selected_station = st.selectbox(
             "Messstation auswählen",
             orte)
     submitted = st.form_submit_button("Ort auswählen")
