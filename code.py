@@ -109,8 +109,8 @@ def wide_space_default():
     st.set_page_config(layout='wide')
 wide_space_default()
 
-st.title('Wetto-App :sunglasses:')
-st.subheader('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use.', divider='blue')
+st.header('Wetto-App :sunglasses:')
+st.subheader('Duesch enart eifach une din Ort uswähle und denn bestätige und nocher spuckts une d Prognose für morn und d Grafike für die nöchste 10 Täg use', divider='blue')
     
 # --- session state init ---
 if "applied" not in st.session_state:
@@ -208,6 +208,7 @@ if submitted:
     # jetzt als Worte das morgige Wetter wiedergeben
     tempstring = echo_temp(t_max)
     percstring = echo_perc(n)
+    st.subheader('Das isch d Prognose für morn:")
     st.write(f'In {st.session_state.ort} {tempstring}{percstring} Une gsehsch no d Wert als Grafik, falls di da interessiert :)')
 
 
