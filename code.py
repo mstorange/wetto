@@ -214,10 +214,12 @@ if submitted:
 
     #plt.style.use('_mpl-gallery')
     plt.style.use('dark_background')
+    daysfmt = mdates.DateFormatter('%a')
     x = df_example['Date']
     mittel = df_example['Sonnenscheindauer; Stundensumme']
     fig, ax = plt.subplots(figsize=(10,5))
     ax.bar(x, mittel, linewidth=0.2, color='yellow', width=1/24, label='Sunneschii (in Minute pro Stund)', edgecolor='black')
+    ax.xaxis.set_major_formatter(daysfmt)
     plt.legend()
     plt.xticks(rotation=45)
     plt.title(f'Sunneschiiprognose (min/h) in {ort}')
@@ -225,6 +227,7 @@ if submitted:
 
     
     plt.style.use('dark_background')
+    daysfmt = mdates.DateFormatter('%a')
     nmin = df_example['Niederschlag; Stundensumme, 10% Quantil']
     nmax = df_example['Niederschlag; Stundensumme, 90% Quantil']
     mittel = df_example['Niederschlag; Stundensumme']
@@ -238,6 +241,7 @@ if submitted:
     if 5 >= nmin.min() and 5 <= nmax.max():
            ax.text(x=x[0]+timedelta(hours=1), y=4.8, s='-- bis 5 mm gilt als wenig Rege', fontdict={'style':'italic'})
            plt.axhline(y=5, color='blue', linestyle='-')
+    ax.xaxis.set_major_formatter(daysfmt)
     plt.xticks(rotation=45)
     plt.title(f'Niederschlagsprognose (in mm/h) in {ort}')
     st.pyplot(fig)
@@ -245,6 +249,7 @@ if submitted:
 
     #plt.style.use('_mpl-gallery')
     plt.style.use('dark_background')
+    daysfmt = mdates.DateFormatter('%a')
     tmin = df_example['Lufttemperatur 2 m über Boden; Stundenmittel, 10% Quantil']
     tmax = df_example['Lufttemperatur 2 m über Boden; Stundenmittel, 90% Quantil']
     mittel = df_example['Lufttemperatur 2 m über Boden; Stundenmittel']
@@ -254,6 +259,7 @@ if submitted:
     ax.plot(x, mittel, linewidth=2, color='#eb889c', label='Temperatur: Unsicherheit')
     ax.set(xlim=(x.min(), x.max()),
            ylim=(round(tmin.min()-1,0), round(tmax.max()+1,0)), yticks=np.arange(round(tmin.min()-1,0), round(tmax.max()+1,0), step=2))
+    ax.xaxis.set_major_formatter(daysfmt)
     plt.xticks(rotation=45)
     plt.axhline(y=30, color='darkred', linestyle='-')
     plt.axhline(y=0, color='black', linestyle='-')
