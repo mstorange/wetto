@@ -91,7 +91,9 @@ if submitted:
 
 
     # wir brauchen nun die point_id und die point_type_id
-    point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_id'].values[0]
+    print(stationen.head(3))
+    point_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_id'] #.values[0]
+    print(point_id.head(3))
     point_type_id = stationen[(stationen['point_name']==st.session_state.ort)&(stationen['point_type_de']=='Station')]['point_type_id'].values[0]
 
     # wir bauen nun dicts, um vom shortname auf die normalen Namen, die Unit und die Parameter-Kurzbeschreibung zuzugreifen
